@@ -1,4 +1,4 @@
-﻿namespace assecor_assessment_backend.Endpoints.Persons.GetPerson.Mappers
+﻿namespace Assecor.Assessment.Backend.Api.Endpoints.Persons.GetPerson.Mappers
 {
     public static class RequestMapper
     {

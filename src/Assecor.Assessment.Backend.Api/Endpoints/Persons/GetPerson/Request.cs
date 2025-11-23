@@ -1,6 +1,6 @@
 ﻿using FastEndpoints;
 
-namespace assecor_assessment_backend.Endpoints.Persons.GetPerson
+namespace Assecor.Assessment.Backend.Api.Endpoints.Persons.GetPerson
 {
     public class Request
     {

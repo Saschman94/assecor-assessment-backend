@@ -1,4 +1,4 @@
-﻿namespace assecor_assessment_backend.Endpoints.Persons.GetPersonsByColor.Mappers
+﻿namespace Assecor.Assessment.Backend.Api.Endpoints.Persons.GetPersonsByColor.Mappers
 {
     public class ResponseMapper
     {

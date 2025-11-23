@@ -1,8 +1,8 @@
-﻿using assecor_assessment_backend.Endpoints.Persons.Reponses;
+﻿using Assecor.Assessment.Backend.Api.Endpoints.Persons.Reponses;
 using FastEndpoints;
 using Microsoft.AspNetCore.Authorization;
 
-namespace assecor_assessment_backend.Endpoints.Persons.GetPerson
+namespace Assecor.Assessment.Backend.Api.Endpoints.Persons.GetPerson
 {
     [HttpGet("/persons/{id}")]
     [AllowAnonymous]

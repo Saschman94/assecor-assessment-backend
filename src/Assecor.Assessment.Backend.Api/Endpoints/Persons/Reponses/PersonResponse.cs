@@ -1,4 +1,4 @@
-﻿namespace assecor_assessment_backend.Endpoints.Persons.Reponses
+﻿namespace Assecor.Assessment.Backend.Api.Endpoints.Persons.Reponses
 {
     public class PersonResponse
     {

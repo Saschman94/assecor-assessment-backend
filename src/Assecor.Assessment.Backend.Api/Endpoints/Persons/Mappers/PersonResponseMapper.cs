@@ -1,7 +1,7 @@
 ﻿using Assecor.Assessment.Backend.Modules.CSV.Domain.Entities;
-using assecor_assessment_backend.Endpoints.Persons.Reponses;
+using Assecor.Assessment.Backend.Api.Endpoints.Persons.Reponses;
 
-namespace assecor_assessment_backend.Endpoints.Persons.Mappers
+namespace Assecor.Assessment.Backend.Api.Endpoints.Persons.Mappers
 {
     public static class PersonResponseMapper
     {

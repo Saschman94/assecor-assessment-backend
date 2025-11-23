@@ -1,11 +1,11 @@
 ﻿using Assecor.Assessment.Backend.Modules.CSV.Application.Interfaces;
 using Assecor.Assessment.Backend.Modules.CSV.Application.Messaging.Commands;
-using assecor_assessment_backend.Endpoints.Persons.Mappers;
-using assecor_assessment_backend.Endpoints.Persons.Reponses;
+using Assecor.Assessment.Backend.Api.Endpoints.Persons.Mappers;
+using Assecor.Assessment.Backend.Api.Endpoints.Persons.Reponses;
 using FastEndpoints;
 using Microsoft.AspNetCore.Authorization;
 
-namespace assecor_assessment_backend.Endpoints.Persons.GetPersons
+namespace Assecor.Assessment.Backend.Api.Endpoints.Persons.GetPersons
 {
     [HttpGet("/persons")]
     [AllowAnonymous]
