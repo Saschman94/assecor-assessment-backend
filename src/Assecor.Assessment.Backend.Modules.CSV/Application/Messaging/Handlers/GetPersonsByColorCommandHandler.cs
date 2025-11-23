@@ -2,19 +2,14 @@
 using Assecor.Assessment.Backend.Modules.CSV.Domain.Entities;
 using Assecor.Assessment.Backend.Modules.CSV.Domain.Interfaces;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Assecor.Assessment.Backend.Modules.CSV.Application.Messaging.Handlers
 {
-    internal class GetAllPersonsHandler : IRequestHandler<GetAllPersonsCommand, IReadOnlyCollection<Person>>
+    internal class GetPersonsByColorCommandHandler : IRequestHandler<GetPersonsByColorCommand, IReadOnlyCollection<Person>>
     {
         #region Constructors
 
-        public GetAllPersonsHandler(IPersonRepository repository)
+        public GetPersonsByColorCommandHandler(IPersonRepository repository)
         {
             ArgumentNullException.ThrowIfNull(repository);
 
@@ -33,9 +28,9 @@ namespace Assecor.Assessment.Backend.Modules.CSV.Application.Messaging.Handlers
 
         #region Public Methods
 
-        public async Task<IReadOnlyCollection<Person>> Handle(GetAllPersonsCommand request, CancellationToken cancellationToken)
+        public async Task<IReadOnlyCollection<Person>> Handle(GetPersonsByColorCommand request, CancellationToken cancellationToken)
         {
-            var result = await _repository.GetAllPersonsAsync(cancellationToken);
+            var result = await _repository.GetPersonsByColorAsync(request.Id, cancellationToken);
 
             return result;
         }

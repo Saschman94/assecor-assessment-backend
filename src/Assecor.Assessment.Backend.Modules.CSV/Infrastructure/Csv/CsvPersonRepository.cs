@@ -12,11 +12,13 @@ namespace Assecor.Assessment.Backend.Modules.CSV.Infrastructure.CSV
     {
         #region Constructors
 
-        public CsvPersonRepository(string csvPath, ILogger<CsvPersonRepository> logger)
+        public CsvPersonRepository(CsvConfiguration csvConfiguration, string csvPath, ILogger<CsvPersonRepository> logger)
         {
+            ArgumentNullException.ThrowIfNull(csvConfiguration);
             ArgumentNullException.ThrowIfNull(csvPath);
             ArgumentNullException.ThrowIfNull(logger);
 
+            _csvConfiguration = csvConfiguration;
             _csvPath = csvPath;
             _logger = logger;
         }
@@ -25,6 +27,7 @@ namespace Assecor.Assessment.Backend.Modules.CSV.Infrastructure.CSV
 
         #region Fields
 
+        private readonly CsvConfiguration _csvConfiguration;
         private readonly string _csvPath;
         private readonly ILogger<CsvPersonRepository> _logger;
 
@@ -47,11 +50,11 @@ namespace Assecor.Assessment.Backend.Modules.CSV.Infrastructure.CSV
 
         #region Public Methods
 
-        public Task<List<Person>> GetAllAsync(CancellationToken cancellationToken = default)
-        {
-            var people = ReadAndParseCsv(cancellationToken);
-            return Task.FromResult(people);
-        }
+        public Task<List<Person>> GetAllPersonsAsync(CancellationToken cancellationToken = default) => Task.FromResult(ReadAndParseCsv(cancellationToken));
+
+        public Task<Person> GetPersonByIdAsync(int id,CancellationToken cancellationToken = default) => Task.FromResult(ReadAndParseCsv(cancellationToken).Single(p => p.Id == id));
+
+        public Task<List<Person>> GetPersonsByColorAsync(int id, CancellationToken cancellationToken = default) => Task.FromResult(ReadAndParseCsv(cancellationToken).Where(p => (int)p.FavoriteColor == id).ToList());
 
         #endregion Public Methods
 
@@ -61,18 +64,8 @@ namespace Assecor.Assessment.Backend.Modules.CSV.Infrastructure.CSV
         {
             var result = new List<Person>();
 
-            var config = new CsvConfiguration(CultureInfo.InvariantCulture)
-            {
-                HasHeaderRecord = false,
-                Delimiter = ",",
-                TrimOptions = TrimOptions.Trim,
-                IgnoreBlankLines = true,
-                MissingFieldFound = null,
-                BadDataFound = null // custom handling applied
-            };
-
             using var reader = new StreamReader(_csvPath);
-            using var csv = new CsvReader(reader, config);
+            using var csv = new CsvReader(reader, _csvConfiguration);
 
             csv.Context.RegisterClassMap<CsvPersonRowMap>();
 
