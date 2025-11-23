@@ -13,7 +13,7 @@ namespace Assecor.Assessment.Backend.Modules.CSV.Domain.Interfaces
 
         #region Public Methods
 
-        IReadOnlyCollection<Person> GetAll();
+        Task<List<Person>> GetAllAsync(CancellationToken cancellationToken = default);
 
         #endregion Public Methods
 

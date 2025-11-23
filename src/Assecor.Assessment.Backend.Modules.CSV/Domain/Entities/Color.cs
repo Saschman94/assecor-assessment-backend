@@ -9,12 +9,12 @@ namespace Assecor.Assessment.Backend.Modules.CSV.Domain.Entities
     public enum Color
     {
         Unknown = 0,
-        blau = 1,
-        grün = 2,
-        violett = 3,
-        rot = 4,
-        gelb = 5,
-        türkis = 6,
-        weiß = 7,
+        Blue = 1,
+        Green = 2,
+        Purple = 3,
+        Red = 4,
+        Yellow = 5,
+        Turquoise = 6,
+        White = 7,
     }
 }

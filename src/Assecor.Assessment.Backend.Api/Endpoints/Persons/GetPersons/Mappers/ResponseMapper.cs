@@ -1,6 +1,8 @@
-﻿namespace assecor_assessment_backend.Endpoints.Persons.GetPersons.Mappers
+﻿using Assecor.Assessment.Backend.Modules.CSV.Domain.Entities;
+
+namespace assecor_assessment_backend.Endpoints.Persons.GetPersons.Mappers
 {
-    public class ResponseMapper
+    public static class ResponseMapper
     {
     }
 }

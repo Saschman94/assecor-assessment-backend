@@ -1,5 +1,10 @@
 ﻿using Assecor.Assessment.Backend.Modules.CSV.Domain.Entities;
 using Assecor.Assessment.Backend.Modules.CSV.Domain.Interfaces;
+using Assecor.Assessment.Backend.Modules.CSV.Infrastructure.Models;
+using CsvHelper;
+using CsvHelper.Configuration;
+using Microsoft.Extensions.Logging;
+using System.Globalization;
 
 namespace Assecor.Assessment.Backend.Modules.CSV.Infrastructure.CSV
 {
@@ -7,11 +12,13 @@ namespace Assecor.Assessment.Backend.Modules.CSV.Infrastructure.CSV
     {
         #region Constructors
 
-        public CsvPersonRepository(string csvPath)
+        public CsvPersonRepository(string csvPath, ILogger<CsvPersonRepository> logger)
         {
             ArgumentNullException.ThrowIfNull(csvPath);
+            ArgumentNullException.ThrowIfNull(logger);
 
             _csvPath = csvPath;
+            _logger = logger;
         }
 
         #endregion Constructors
@@ -19,6 +26,7 @@ namespace Assecor.Assessment.Backend.Modules.CSV.Infrastructure.CSV
         #region Fields
 
         private readonly string _csvPath;
+        private readonly ILogger<CsvPersonRepository> _logger;
 
         #endregion Fields
 
@@ -26,36 +34,100 @@ namespace Assecor.Assessment.Backend.Modules.CSV.Infrastructure.CSV
 
         #region Private Static Methods
 
-        private static Color MapColor(int colorCode) => Enum.IsDefined(typeof(Color), colorCode) ? (Color)colorCode : Color.Unknown;
+        private static (string zip, string city) ParseZipAndCity(string raw)
+        {
+            var parts = raw.Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length < 2)
+                throw new FormatException($"Invalid zip/city format: '{raw}'");
+
+            return (parts[0], parts[1]);
+        }
 
         #endregion Private Static Methods
 
         #region Public Methods
 
-        public IReadOnlyCollection<Person> GetAll()
+        public Task<List<Person>> GetAllAsync(CancellationToken cancellationToken = default)
         {
-            var lines = File.ReadAllLines(_csvPath);
-            var result = new List<Person>();
-
-            foreach (var line in lines)
-            {
-                int lineCounter = 0;
-                var parts = line.Split(';');
-                var colorCode = int.Parse(parts[3]);
-
-                result.Add(new Person()
-                {
-                    Id = lineCounter++,
-                    Name = parts[0],
-                    LastName = parts[1],
-                    City = parts[2],
-                    ColorCode = MapColor(colorCode)
-                });
-            }
-            return result;
+            var people = ReadAndParseCsv(cancellationToken);
+            return Task.FromResult(people);
         }
 
         #endregion Public Methods
+
+        #region Private Methods
+
+        private List<Person> ReadAndParseCsv(CancellationToken cancellationToken)
+        {
+            var result = new List<Person>();
+
+            var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+            {
+                HasHeaderRecord = false,
+                Delimiter = ",",
+                TrimOptions = TrimOptions.Trim,
+                IgnoreBlankLines = true,
+                MissingFieldFound = null,
+                BadDataFound = null // custom handling applied
+            };
+
+            using var reader = new StreamReader(_csvPath);
+            using var csv = new CsvReader(reader, config);
+
+            csv.Context.RegisterClassMap<CsvPersonRowMap>();
+
+            var id = 1;
+
+            while (csv.Read())
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+
+                try
+                {
+                    var row = csv.GetRecord<CsvPersonRow>();
+
+                    var (zip, city) = ParseZipAndCity(row.ZipAndCity);
+
+                    var address = new Address(
+                        new PostalCode(zip),
+                        city
+                    );
+
+                    var color = Enum.IsDefined(typeof(Color), row.FavoriteColorCode)
+                        ? (Color)row.FavoriteColorCode
+                        : Color.Unknown;
+
+                    var person = new Person(
+                        id: id++,
+                        name: row.FirstName.Trim(),
+                        lastname: row.LastName.Trim(),
+                        address: address,
+                        favoriteColor: color
+                    );
+
+                    result.Add(person);
+                }
+                catch (Exception ex) when (
+                    ex is CsvHelperException ||
+                    ex is FormatException ||
+                    ex is ArgumentException)
+                {
+                    var rowNumber = csv.Context.Parser.Row;
+                    var record = csv.Context.Parser.Record;
+                    var raw = record is null ? string.Empty : string.Join(" | ", record);
+
+                    _logger.LogWarning(
+                        ex,
+                        "Error in CSV line {RowNumber}: '{Raw}'. Line will be ignored.",
+                        rowNumber,
+                        raw);
+                }
+            }
+
+            return result;
+        }
+
+        #endregion Private Methods
 
         #endregion Methods
     }

@@ -1,0 +1,19 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Assecor.Assessment.Backend.Modules.CSV.Domain.Entities
+{
+    public class Address(PostalCode postalCode, string city)
+    {
+        #region Properties
+
+        public string City { get; } = city;
+
+        public PostalCode PostalCode { get; } = postalCode;
+
+        #endregion Properties
+    }
+}
