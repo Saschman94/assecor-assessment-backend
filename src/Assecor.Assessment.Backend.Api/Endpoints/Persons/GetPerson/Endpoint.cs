@@ -4,7 +4,6 @@ using Assecor.Assessment.Backend.Modules.CSV.Application.Interfaces;
 using Assecor.Assessment.Backend.Modules.CSV.Application.Messaging.Commands;
 using FastEndpoints;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Components;
 
 namespace Assecor.Assessment.Backend.Api.Endpoints.Persons.GetPerson
 {
@@ -26,9 +25,10 @@ namespace Assecor.Assessment.Backend.Api.Endpoints.Persons.GetPerson
         {
             var result = await _dispatcher.Dispatch(new GetPersonCommand(req.Id), ct);
 
-            var response = PersonResponseMapper.MapToPersonResponse(result);
+            if (result.IsFailed)
+                await Send.NotFoundAsync(cancellation: ct);
 
-            await Send.OkAsync(response, cancellation: ct);
+            await Send.OkAsync(PersonResponseMapper.MapToPersonResponse(result.Value), cancellation: ct);
         }
 
         #endregion Public Methods

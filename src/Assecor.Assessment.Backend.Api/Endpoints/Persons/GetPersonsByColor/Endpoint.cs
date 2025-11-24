@@ -25,9 +25,10 @@ namespace Assecor.Assessment.Backend.Api.Endpoints.Persons.GetPersonsByColor
         {
             var result = await _dispatcher.Dispatch(new GetPersonsByColorCommand(req.Id), ct);
 
-            var response = PersonResponseMapper.MapToPersonsResponse(result);
+            if (result.IsFailed)
+                await Send.NotFoundAsync(cancellation: ct);
 
-            await Send.OkAsync(response, cancellation: ct);
+            await Send.OkAsync(PersonResponseMapper.MapToPersonsResponse(result.Value), cancellation: ct);
         }
 
         #endregion Public Methods

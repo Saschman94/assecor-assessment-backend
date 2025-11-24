@@ -1,11 +1,12 @@
 ﻿using Assecor.Assessment.Backend.Modules.CSV.Application.Messaging.Commands;
 using Assecor.Assessment.Backend.Modules.CSV.Domain.Entities;
 using Assecor.Assessment.Backend.Modules.CSV.Domain.Interfaces;
+using FluentResults;
 using MediatR;
 
 namespace Assecor.Assessment.Backend.Modules.CSV.Application.Messaging.Handlers
 {
-    internal class GetPersonHandler : IRequestHandler<GetPersonCommand, Person>
+    internal class GetPersonHandler : IRequestHandler<GetPersonCommand, Result<Person>>
     {
         #region Constructors
 
@@ -28,11 +29,25 @@ namespace Assecor.Assessment.Backend.Modules.CSV.Application.Messaging.Handlers
 
         #region Public Methods
 
-        public async Task<Person> Handle(GetPersonCommand request, CancellationToken cancellationToken)
+        public async Task<Result<Person>> Handle(GetPersonCommand request, CancellationToken cancellationToken)
         {
-            var result = await _repository.GetPersonByIdAsync(request.Id, cancellationToken);
+            try
+            {
+                var person = await _repository.GetPersonByIdAsync(request.Id, cancellationToken);
 
-            return result;
+                if (person is null)
+                    return Result.Fail("No person with given ID found.");
+
+                return Result.Ok(person);
+            }
+            catch (OperationCanceledException)
+            {
+                return Result.Fail(new Error("Request was cancelled."));
+            }
+            catch (Exception ex)
+            {
+                return Result.Fail(new Error("Unexpected error while loading person.").CausedBy(ex));
+            }
         }
 
         #endregion Public Methods

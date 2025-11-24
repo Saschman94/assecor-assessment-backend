@@ -52,9 +52,14 @@ namespace Assecor.Assessment.Backend.Modules.CSV.Infrastructure.CSV
 
         public Task<List<Person>> GetAllPersonsAsync(CancellationToken cancellationToken = default) => Task.FromResult(ReadAndParseCsv(cancellationToken));
 
-        public Task<Person> GetPersonByIdAsync(int id,CancellationToken cancellationToken = default) => Task.FromResult(ReadAndParseCsv(cancellationToken).Single(p => p.Id == id));
+        public Task<Person> GetPersonByIdAsync(int id, CancellationToken cancellationToken = default) => Task.FromResult(ReadAndParseCsv(cancellationToken).SingleOrDefault(p => p.Id == id) ?? throw new KeyNotFoundException($"Person with ID {id} not found."));
 
-        public Task<List<Person>> GetPersonsByColorAsync(int id, CancellationToken cancellationToken = default) => Task.FromResult(ReadAndParseCsv(cancellationToken).Where(p => (int)p.FavoriteColor == id).ToList());
+        public Task<List<Person>> GetPersonsByColorAsync(int id, CancellationToken cancellationToken = default)
+        {
+            var personsByColor = ReadAndParseCsv(cancellationToken).Where(p => (int)p.FavoriteColor == id) ?? throw new KeyNotFoundException($"No persons found with color ID {id}.");
+
+            return Task.FromResult(personsByColor.ToList());
+        }
 
         #endregion Public Methods
 
