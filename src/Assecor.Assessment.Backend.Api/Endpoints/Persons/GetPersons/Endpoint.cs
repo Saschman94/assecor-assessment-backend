@@ -26,9 +26,13 @@ namespace Assecor.Assessment.Backend.Api.Endpoints.Persons.GetPersons
             var result = await _dispatcher.Dispatch(new GetAllPersonsCommand(), ct);
 
             if (result.IsFailed)
+            {
                 await Send.NotFoundAsync(cancellation: ct);
-
-            await Send.OkAsync(PersonResponseMapper.MapToPersonsResponse(result.Value), cancellation: ct);
+            }
+            else
+            {
+                await Send.OkAsync(PersonResponseMapper.MapToPersonsResponse(result.Value), cancellation: ct);
+            }
         }
 
         #endregion Public Methods
