@@ -1,7 +1,7 @@
-﻿using Assecor.Assessment.Backend.Modules.CSV.Application.Interfaces;
-using Assecor.Assessment.Backend.Modules.CSV.Application.Messaging.Dispatcher;
-using Assecor.Assessment.Backend.Modules.CSV.Domain.Interfaces;
-using Assecor.Assessment.Backend.Modules.CSV.Infrastructure.CSV;
+﻿using Assecor.Assessment.Backend.Modules.CSV.Infrastructure.CSV;
+using Assecor.Assessment.Backend.Modules.SharedDomain.Domain.Interfaces;
+using Assecor.Assessment.Backend.SharedDomain.Application.Interfaces;
+using Assecor.Assessment.Backend.SharedDomain.Application.Messaging.Dispatcher;
 using CsvHelper.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -17,8 +17,8 @@ namespace Assecor.Assessment.Backend.Modules.CSV
 
         public static IServiceCollection AddCsvModule (this IServiceCollection services, string csvFileLocation)
         {
-            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CsvModule).Assembly));
             services.AddScoped<ICommandDispatcher, CommandDispatcher>();
+
             var csvReaderConfig = new CsvConfiguration(CultureInfo.InvariantCulture)
             {
                 HasHeaderRecord = false,

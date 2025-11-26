@@ -1,7 +1,7 @@
 ﻿using Assecor.Assessment.Backend.Api.Endpoints.Persons.Mappers;
 using Assecor.Assessment.Backend.Api.Endpoints.Persons.Reponses;
-using Assecor.Assessment.Backend.Modules.CSV.Application.Interfaces;
-using Assecor.Assessment.Backend.Modules.CSV.Application.Messaging.Commands;
+using Assecor.Assessment.Backend.SharedDomain.Application.Interfaces;
+using Assecor.Assessment.Backend.SharedDomain.Application.Messaging.Commands;
 using FastEndpoints;
 using Microsoft.AspNetCore.Authorization;
 

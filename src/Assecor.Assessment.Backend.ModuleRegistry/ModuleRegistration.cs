@@ -1,11 +1,7 @@
-﻿using Assecor.Assessment.Backend.Modules.CSV;
+﻿using Assecor.Assessment.Backend.Database;
+using Assecor.Assessment.Backend.Modules.CSV;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Assecor.Assessment.Backend.ModuleRegistry
 {
@@ -18,11 +14,20 @@ namespace Assecor.Assessment.Backend.ModuleRegistry
         public static IServiceCollection AddModules(this IServiceCollection services, IConfiguration configuration)
         {
             var csvFileLocation = configuration.GetSection("CsvModule:FileLocation").Value;
+            var dbConnectionString = configuration.GetConnectionString("DefaultConnection");
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(ModuleRegistration).Assembly));
 
-            if(string.IsNullOrWhiteSpace(csvFileLocation))
+            if (!string.IsNullOrWhiteSpace(dbConnectionString))
+            {
+                services.AddDbModule(dbConnectionString);
+                return services;
+            }
+
+            if (string.IsNullOrWhiteSpace(csvFileLocation))
                 throw new ArgumentNullException(csvFileLocation, "CSV file location is not configured properly.");
 
             services.AddCsvModule(csvFileLocation);
+
             return services;
         }
 

@@ -1,4 +1,4 @@
-﻿using Assecor.Assessment.Backend.Modules.CSV.Domain.Entities;
+﻿using Assecor.Assessment.Backend.Modules.SharedDomain.Domain.Entities;
 using AutoFixture;
 using AutoFixture.AutoNSubstitute;
 using AutoFixture.Xunit2;

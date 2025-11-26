@@ -1,14 +1,9 @@
-﻿using Assecor.Assessment.Backend.Modules.CSV.Application.Interfaces;
+﻿using Assecor.Assessment.Backend.SharedDomain.Application.Interfaces;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Assecor.Assessment.Backend.Modules.CSV.Application.Messaging.Dispatcher
+namespace Assecor.Assessment.Backend.SharedDomain.Application.Messaging.Dispatcher
 {
-    internal class CommandDispatcher : ICommandDispatcher
+    public class CommandDispatcher : ICommandDispatcher
     {
         #region Constructors
 

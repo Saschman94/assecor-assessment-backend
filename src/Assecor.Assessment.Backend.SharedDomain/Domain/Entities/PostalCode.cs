@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Assecor.Assessment.Backend.Modules.CSV.Domain.Entities
+namespace Assecor.Assessment.Backend.Modules.SharedDomain.Domain.Entities
 {
     public class PostalCode
     {

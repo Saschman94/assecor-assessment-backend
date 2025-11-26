@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Assecor.Assessment.Backend.Modules.SharedDomain.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Assecor.Assessment.Backend.Modules.CSV.Domain.Entities
+namespace Assecor.Assessment.Backend.SharedDomain.Domain.Entities
 {
     public class Person(int id, string name, string lastname, Address address, Color favoriteColor)
     {

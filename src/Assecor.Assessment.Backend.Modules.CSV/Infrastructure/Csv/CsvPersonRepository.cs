@@ -1,6 +1,7 @@
-﻿using Assecor.Assessment.Backend.Modules.CSV.Domain.Entities;
-using Assecor.Assessment.Backend.Modules.CSV.Domain.Interfaces;
-using Assecor.Assessment.Backend.Modules.CSV.Infrastructure.Models;
+﻿using Assecor.Assessment.Backend.Modules.CSV.Infrastructure.Models;
+using Assecor.Assessment.Backend.Modules.SharedDomain.Domain.Entities;
+using Assecor.Assessment.Backend.Modules.SharedDomain.Domain.Interfaces;
+using Assecor.Assessment.Backend.SharedDomain.Domain.Entities;
 using CsvHelper;
 using CsvHelper.Configuration;
 using Microsoft.Extensions.Logging;

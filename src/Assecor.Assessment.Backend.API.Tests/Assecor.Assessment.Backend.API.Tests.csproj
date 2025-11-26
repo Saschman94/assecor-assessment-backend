@@ -22,7 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Assecor.Assessment.Backend.API\Assecor.Assessment.Backend.API.csproj" />
-    <ProjectReference Include="..\Assecor.Assessment.Backend.Modules.CSV\Assecor.Assessment.Backend.Modules.CSV.csproj" />
+    <ProjectReference Include="..\Assecor.Assessment.Backend.SharedDomain\Assecor.Assessment.Backend.SharedDomain.csproj" />
   </ItemGroup>
 
 </Project>

@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Assecor.Assessment.Backend.Database\Assecor.Assessment.Backend.Database.csproj" />
     <ProjectReference Include="..\Assecor.Assessment.Backend.Modules.CSV\Assecor.Assessment.Backend.Modules.CSV.csproj" />
   </ItemGroup>
 

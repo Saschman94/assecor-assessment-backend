@@ -1,16 +1,16 @@
-﻿using Assecor.Assessment.Backend.Modules.CSV.Application.Messaging.Commands;
-using Assecor.Assessment.Backend.Modules.CSV.Domain.Entities;
-using Assecor.Assessment.Backend.Modules.CSV.Domain.Interfaces;
+﻿using Assecor.Assessment.Backend.Modules.SharedDomain.Domain.Interfaces;
+using Assecor.Assessment.Backend.SharedDomain.Application.Messaging.Commands;
+using Assecor.Assessment.Backend.SharedDomain.Domain.Entities;
 using FluentResults;
 using MediatR;
 
-namespace Assecor.Assessment.Backend.Modules.CSV.Application.Messaging.Handlers
+namespace Assecor.Assessment.Backend.SharedDomain.Application.Messaging.Handlers
 {
-    internal class GetPersonsByColorCommandHandler : IRequestHandler<GetPersonsByColorCommand, Result<IReadOnlyCollection<Person>>>
+    public class GetAllPersonsHandler : IRequestHandler<GetAllPersonsCommand, Result<IReadOnlyCollection<Person>>>
     {
         #region Constructors
 
-        public GetPersonsByColorCommandHandler(IPersonRepository repository)
+        public GetAllPersonsHandler(IPersonRepository repository)
         {
             ArgumentNullException.ThrowIfNull(repository);
 
@@ -29,11 +29,11 @@ namespace Assecor.Assessment.Backend.Modules.CSV.Application.Messaging.Handlers
 
         #region Public Methods
 
-        public async Task<Result<IReadOnlyCollection<Person>>> Handle(GetPersonsByColorCommand request, CancellationToken cancellationToken)
+        public async Task<Result<IReadOnlyCollection<Person>>> Handle(GetAllPersonsCommand request, CancellationToken cancellationToken)
         {
             try
             {
-                var persons = await _repository.GetPersonsByColorAsync(request.Id, cancellationToken);
+                var persons = await _repository.GetAllPersonsAsync(cancellationToken);
 
                 if (persons is null || persons.Count == 0)
                     return Result.Fail("No persons found.");
@@ -46,7 +46,7 @@ namespace Assecor.Assessment.Backend.Modules.CSV.Application.Messaging.Handlers
             }
             catch (Exception ex)
             {
-                return Result.Fail(new Error("Unexpected error while loading person.").CausedBy(ex));
+                return Result.Fail(new Error("Unexpected error while loading persons.").CausedBy(ex));
             }
         }
 

@@ -1,5 +1,6 @@
-﻿using Assecor.Assessment.Backend.Modules.CSV.Domain.Entities;
-using Assecor.Assessment.Backend.Api.Endpoints.Persons.Reponses;
+﻿using Assecor.Assessment.Backend.Api.Endpoints.Persons.Reponses;
+using Assecor.Assessment.Backend.Modules.SharedDomain.Domain.Entities;
+using Assecor.Assessment.Backend.SharedDomain.Domain.Entities;
 
 namespace Assecor.Assessment.Backend.Api.Endpoints.Persons.Mappers
 {

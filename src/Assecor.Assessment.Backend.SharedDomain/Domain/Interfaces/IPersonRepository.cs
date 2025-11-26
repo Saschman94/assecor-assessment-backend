@@ -1,11 +1,11 @@
-﻿using Assecor.Assessment.Backend.Modules.CSV.Domain.Entities;
+﻿using Assecor.Assessment.Backend.SharedDomain.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Assecor.Assessment.Backend.Modules.CSV.Domain.Interfaces
+namespace Assecor.Assessment.Backend.Modules.SharedDomain.Domain.Interfaces
 {
     public interface IPersonRepository
     {

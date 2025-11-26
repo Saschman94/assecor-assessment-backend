@@ -1,7 +1,7 @@
 ﻿using Assecor.Assessment.Backend.API.Tests.TestBase;
-using Assecor.Assessment.Backend.Modules.CSV.Application.Interfaces;
-using Assecor.Assessment.Backend.Modules.CSV.Application.Messaging.Commands;
-using Assecor.Assessment.Backend.Modules.CSV.Domain.Entities;
+using Assecor.Assessment.Backend.SharedDomain.Application.Interfaces;
+using Assecor.Assessment.Backend.SharedDomain.Application.Messaging.Commands;
+using Assecor.Assessment.Backend.SharedDomain.Domain.Entities;
 using AutoFixture.AutoNSubstitute;
 using FluentResults;
 using Microsoft.AspNetCore.Http;

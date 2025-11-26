@@ -1,12 +1,12 @@
-﻿using Assecor.Assessment.Backend.Modules.CSV.Application.Messaging.Commands;
-using Assecor.Assessment.Backend.Modules.CSV.Domain.Entities;
-using Assecor.Assessment.Backend.Modules.CSV.Domain.Interfaces;
+﻿using Assecor.Assessment.Backend.Modules.SharedDomain.Domain.Interfaces;
+using Assecor.Assessment.Backend.SharedDomain.Application.Messaging.Commands;
+using Assecor.Assessment.Backend.SharedDomain.Domain.Entities;
 using FluentResults;
 using MediatR;
 
-namespace Assecor.Assessment.Backend.Modules.CSV.Application.Messaging.Handlers
+namespace Assecor.Assessment.Backend.SharedDomain.Application.Messaging.Handlers
 {
-    internal class GetPersonHandler : IRequestHandler<GetPersonCommand, Result<Person>>
+    public class GetPersonHandler : IRequestHandler<GetPersonCommand, Result<Person>>
     {
         #region Constructors
 
