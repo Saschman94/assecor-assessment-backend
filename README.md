@@ -1,4 +1,53 @@
-# Assecor Assessment Test (DE)
+# Project Setup
+
+## Prerequisites
+1. A running SQL Server (locally or in a container) if you want to run the project with a connected DB
+2. A CSV File you want to read in the defined format and place it in the 'Data' folder of the project root
+
+**HINT: The Service runs in Database Mode by default, so if you want to run it in the CSV Reader Mode, please skip the DB Setup and ensure there is no default connection entered in the appsettings.json file** 
+
+## DB Setup
+1. Open a console in the project root directory (same as .sln file)
+
+2. Add you DB connection string to the appsettings.json as you can see below
+```json
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "YOUR_DB_CONNECTION_STRING"
+  }
+}
+```
+
+3. Create a migrations file by typing the following:
+
+```pwsh
+    dotnet ef migrations add InitialCreate --project Assecor.Assessment.Backend.Database --startup-project Assecor.Assessment.Backend.Api
+```
+
+
+4. Navigate into Assecor.Assessment.Backend.Api and run the project with
+
+```pwsh
+    dotnet run
+```
+
+## CSV Setup
+1. Enter the relative path to your CSV File to the appsettings.json file like below
+```json
+{
+  "CsvModule": {
+    "FileLocation": "YOUR_RELATIVE_CSV_PATH"
+  },
+}
+```
+2. Just to make sure: Ensure you have no DefaultConnection added to the 'ConnectionStrings' segment of the appsettings.json
+3. Navigate into Assecor.Assessment.Backend.Api and run the project with
+
+```pwsh
+    dotnet run
+```
+
+#
 
 ## Zielsetzung
 
